@@ -1,0 +1,3 @@
+This is a library implementing PCA data transformation.
+
+It currently uses the Jama matrix library for linear algebra operations.

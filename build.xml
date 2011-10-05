@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:ivy="antlib:org.apache.ivy.ant" 
+		name="pca_transform" basedir="." default="default" >
+
+	<!-- Properties { -->
+	<property name="build.debug" value="false"/>
+	<property name="project.name" value="pca_transform"/>
+	<property name="project.version" value="0.6"/>
+	<property name="project.name-ver" value="${project.name}-${project.version}" />
+	<!-- Properties } -->
+	
+
+	<!-- Paths { -->
+	<property name="src.dir" location="./src"/>
+	<property name="build.dir" location="./build"/>
+	<property name="build.classes.dir" location="${build.dir}/classes"/>
+
+	<property name="test.src.dir" location="test"/>
+	<property name="test.dir" location="${build.dir}/test" />
+	<property name="test.classes.dir" location="${test.dir}/classes" />
+	<property name="test.output.dir" location="${test.dir}/output" />
+	<property name="test.reports.dir" location="${test.dir}/reports" />
+
+	<property name="dist.dir" location="./dist"/>
+	<property name="javadoc.dir.name" value="api"/>
+	<property name="javadoc.dir" location="${dist.dir}/${javadoc.dir.name}"/>
+	
+	<property name="target.file.name" value="${project.name-ver}.jar" />
+	<property name="target.jar" location="${dist.dir}/${target.file.name}" />
+	<property name="dist.zip.file.name" value="${project.name-ver}.tar.gz"/>
+	<property name="dist.zip" location="${dist.dir}/${dist.zip.file.name}" />
+	<property name="dist.src.zip.file.name" value="${project.name-ver}-src.tar.gz"/>	
+	<property name="dist.src.zip" location="${dist.dir}/${dist.src.zip.file.name}" />
+
+	<!-- Paths { -->
+	<path id="classpath">
+		<fileset dir="lib">
+	    	<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<path id="test.classpath">
+		<pathelement location="${target.jar}"/>
+		<pathelement location="${test.classes.dir}"/>
+	</path>
+	
+	<fileset dir="." id="dist-bin-doc-files">
+		<include name="*.txt"/>
+		<include name="*.mkd"/>
+	</fileset>
+	<!-- Paths } -->
+
+
+	<target name="default" depends="dist"
+		description="Execute default task i.e. create distribution files"/>
+
+	<target name="test" depends="unit-tests"
+		description="compile and run all the tests"/>
+	
+	<target name="run" depends="dist">
+		<java jar="${dist.dir}/${target.file.name}" fork="true">
+			<arg value="-enableassertions"/>
+		</java>
+	</target>
+	
+	<target name="init">
+	  	<!-- Create the buildtime property containing the date 
+	  		in a sensible format -->
+		<tstamp>
+			<format property="build.time" pattern="yyyy-MM-dd"/>
+		</tstamp>
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${build.classes.dir}"/>
+		<mkdir dir="${dist.dir}"/>
+		<mkdir dir="${javadoc.dir}"/>
+	</target>
+	
+	<target name="resolve" description="retrieve libraries with Ivy">
+		<ivy:retrieve />
+	</target>
+	
+	<target name="compile" depends="init, resolve">
+		<echo>debug=${build.debug}</echo>
+		<!-- Compile source with options:
+			includeAntRuntime="false" - don't include Ant run-time libraries
+			in the classpath -->
+		<javac srcdir="${src.dir}" 
+			destdir="${build.classes.dir}" debug="${build.debug}"
+			includeAntRuntime="false">
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+	
+
+	<!-- Tests { -->
+	<target name="test-init" depends="dist">
+		<mkdir dir="${test.classes.dir}"/>
+		<delete dir="${test.output.dir}"/>
+		<delete dir="${test.reports.dir}"/>
+		<mkdir dir="${test.output.dir}"/>
+		<mkdir dir="${test.reports.dir}"/>
+	</target>
+	
+	<target name="test-compile" depends="compile,test-init">
+		<javac srcdir="${test.src.dir}"
+			destdir="${test.classes.dir}"
+			debug="true"
+			includeAntRuntime="yes">
+			<classpath refid="test.classpath"/>
+		</javac>
+		<!-- Copy data files -->
+		<copy todir="${test.classes.dir}">
+			<fileset dir="${test.src.dir}">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<!-- Run all JUnit tests where:
+		errorProperty="test.failed" and failureProperty="test.failed" - save
+			failures and errors to the given property -->		
+	<target name="unit-tests" depends="test-compile">
+		<junit printsummary="false"
+			errorProperty="test.failed"
+			failureProperty="test.failed"
+			fork="yes">
+			<assertions enableSystemAssertions="true"/>
+			<formatter type="brief" usefile="false"/>
+			<formatter type="xml"/>
+			<classpath refid="test.classpath" />
+
+			<!-- Run all the test then save the output to the given dir -->
+			<batchtest todir="${test.output.dir}">
+    			<fileset dir="${test.classes.dir}">
+      				<include name="**/*_Test.class"/>
+      			</fileset>
+			</batchtest>
+		</junit>
+		
+		<!-- Generate test report based on JUnit output-->
+		<junitreport todir="${test.output.dir}">
+			<fileset dir="${test.output.dir}">
+				<include name="TEST-*.xml"/>
+		 	</fileset>
+			<report format="frames" todir="${test.reports.dir}"/>
+		</junitreport>
+
+		<!-- fail if any of the tests failed -->
+		<fail if="test.failed">
+			Tests failed. Check ${test.reports.dir}
+		</fail>
+	</target>
+	<!-- Tests } -->
+
+
+	<!-- Main artifacts{ -->
+	<target name="dist" depends="docs" 
+		description="Create distribution files">
+		<pathconvert property="manifest.classpath" pathsep=" ">
+			<path refid="classpath" />
+			<flattenmapper />
+		</pathconvert>
+		<jar jarfile="${target.jar}">
+			<fileset dir="${build.classes.dir}"/>
+			<manifest>
+				<attribute name="Main-Class" value="pca_transform.SampleRun"/>
+				<attribute name="Class-Path" value="${manifest.classpath}"/>
+			</manifest>
+	    </jar>
+        <!-- Copy needed libraries -->
+		<copy todir="${dist.dir}">
+			<path refid="classpath"/>
+		</copy>
+	</target>
+	<!-- Main artifacts} -->
+	
+	
+	<!-- Documentation{ -->
+	<target name="docs" depends="javadocs" description="create documentation"/>
+
+	<target name="javadocs" depends="compile">
+		<javadoc destdir="${javadoc.dir}" 
+			packagenames="pca_transform.*"
+			sourcepath="${src.dir}"
+			windowtitle="${ant.project.name}"
+			failonerror="true">
+			<classpath refid="classpath"/>
+		</javadoc>
+	</target>
+	<!-- Documentation} -->
+  	
+	<!-- Distribution packages{ -->
+	<target name="dist-packages" 
+		description="Create source and bin distribution packages"
+		depends="dist-src-package,dist-bin-package" />
+
+	<target name="dist-bin-package" depends="dist,docs"
+		description="create compressed distribution file">
+		<tar destFile="${dist.zip}" compression="gzip">
+			<tarfileset dir="${dist.dir}" prefix="${project.name-ver}">
+				<include name="*.jar"/>
+				<include name="${javadoc.dir.name}/**"/>
+			</tarfileset>
+			<tarfileset dir="${dist.dir}" prefix="${project.name-ver}" filemode="755">
+				<include name="*.sh"/>
+			</tarfileset>
+			<tarfileset	refid="dist-bin-doc-files" 
+				prefix="${project.name-ver}"/>
+		</tar>
+	</target>
+	
+	<target name="dist-src-package" depends="dist">
+		<tar destfile="${dist.src.zip}" compression="gzip">
+			<tarfileset dir="." prefix="${project.name-ver}-src">
+				<exclude name="**/dist/**"/>
+				<exclude name="**/build/**"/>
+				<exclude name="bin/**"/>
+				<exclude name="lib/**"/>
+				<exclude name=".project"/>
+				<exclude name=".classpath"/>
+				<exclude name=".git/**"/>
+			</tarfileset>
+		</tar>
+	</target>
+	<!-- Distribution packages} -->
+
+
+	<!-- Cleaning{ -->
+	<target name="clean" description="clean up" >
+		<delete dir="${build.dir}"/>
+		<delete dir="${dist.dir}"/>
+		<delete dir="${test.output.dir}"/>
+		<delete dir="${test.reports.dir}"/>
+		<delete dir="lib"/>
+	</target>
+	<!-- Cleaning} -->
+
+</project> 

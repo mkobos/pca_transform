@@ -1,0 +1,8 @@
+<ivysettings>
+	<settings defaultResolver="Jama download page"/>
+	<resolvers>
+		<url name="Jama download page">
+			<artifact pattern="http://math.nist.gov/javanumerics/jama/[artifact]-[revision].[ext]"/>
+		</url>
+	</resolvers>
+</ivysettings>
