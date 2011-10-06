@@ -6,7 +6,7 @@ Downloads
 =========
 The library can be downloaded as a binary or source package from [https://github.com/mkobos/pca_transform/downloads](https://github.com/mkobos/pca_transform/downloads "Distribution download page").
 
-The source can be also downloaded straight from the Git repository: `git clone git@github.com:mkobos/pca_transform.git`.
+The source can be also retrieved straight from the Git repository: `git clone git@github.com:mkobos/pca_transform.git`.
 
 Features
 ========
@@ -19,7 +19,7 @@ The method deals with situations where some of the **columns in the data matrix 
 
 The library can be also used to **check if given test point lies in the PCA-generated subspace**. If it does not, it means that it does not belong to the transformation domain and can be treated as an **outlier** (see Fig.1 for an illustration). Here, we use the following practical rule to decide if a vector belongs to the domain. If the vector belongs to the domain space, its non-significant components (those with standard deviation equal 0) should be zeroed by the matrix transformation; if they are not, we assume that the vector is an outlier. We use a somewhat ad-hoc threshold to check if the values are different from zero (if the absolute value is smaller than the threshold, it is assumed to be zero). The threshold is equal to `3 * sqrt(.Machine$double.eps) * sd(PC1)`, where `sqrt(.Machine$double.eps)` is a value mentioned in the previous paragraph and `sd(PC1)` is a standard deviation of the first principal component.
 
-![](http://github.com/mkobos/pca_transform/raw/develop/docs/pca_outlier.png "An example of dimensionality reduction and outliers detection in PCA")
+![](http://github.com/mkobos/pca_transform/raw/master/docs/pca_outlier.png "An example of dimensionality reduction and outliers detection in PCA")
 
 **Fig.1**: An example of dimensionality reduction and outliers detection in PCA. On the left we have a situation before and on the right after the PCA transformation. The black dots corresponds to two-dimensional samples from the training data set (situated on a single line) which are used to set the transformation parameters. The red point is an outlier point from the testing set, and the green point is a non-outlier point from the testing set. It can be seen that the two-dimensional samples from the training set are reduced to one-dimensional samples by the rotation transformation -- they all lay on the X axis now (their Y coordinate equals 0). The same goes for the green non-outlier point from the testing set. The red outlier point, on the other hand, does not have its Y coordinate equal 0.
 
