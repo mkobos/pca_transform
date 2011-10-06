@@ -2,7 +2,11 @@ package pca_transform.covmatrixevd;
 
 import Jama.Matrix;
 import Jama.SingularValueDecomposition;
-
+/**
+ * SVD-based covariance matrix eigenvalue decomposition
+ * @author Mateusz Kobos
+ *
+ */
 public class SVDBased implements CovarianceMatrixEVDCalculator{
 	@Override
 	public EVDResult run(Matrix centeredData) {

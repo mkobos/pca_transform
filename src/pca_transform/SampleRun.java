@@ -2,6 +2,7 @@ package pca_transform;
 
 import Jama.Matrix;
 
+/** An example program using the library */
 public class SampleRun {
 	public static void main(String[] args){
 		System.out.println("Running a demonstrational program on some sample data ...");

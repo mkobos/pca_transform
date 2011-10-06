@@ -9,7 +9,9 @@ import java.util.ArrayList;
 
 import Jama.Matrix;
 
-/** Reads data matrix from a CSV file */
+/** Reads data matrix from a CSV file 
+ * @author Mateusz Kobos
+ * */
 public class DataReader {
 
 	/**

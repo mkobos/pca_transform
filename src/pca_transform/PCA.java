@@ -7,8 +7,12 @@ import pca_transform.covmatrixevd.EVDResult;
 import pca_transform.covmatrixevd.SVDBased;
 import Jama.Matrix;
 
+/** The class responsible mainly for preparing the PCA transformation parameters 
+ * based on training data and executing the actual transformation on test data.
+ * @author Mateusz Kobos
+ */
 public final class PCA {
-	/**
+	/** Type of the possible data transformation.
 	 * ROTATION: rotate the data matrix to get a diagonal covariance matrix. 
 	 * This transformation is sometimes simply called PCA.
 	 * WHITENING: rotate and scale the data matrix to get 
@@ -53,7 +57,7 @@ public final class PCA {
 		this.d = evdT.getDAboveThreshold();
 		this.v = evdT.getVAboveThreshold();
 		this.zerosRotationTransformation = evdT.getVBelowThreshold();
-		/** TODO: A 3-sigma-like ad-hoc rule */
+		/** A 3-sigma-like ad-hoc rule */
 		this.threshold = 3*evdT.getThreshold();
 		
 		//debugWrite(this.evd.v, "eigen-v.csv");
@@ -74,14 +78,24 @@ public final class PCA {
 		return v;
 	}
 	
+	/**
+	 * Get selected eigenvalue
+	 * @param dimNo dimension number corresponding to given eigenvalue
+	 */
 	public double getEigenvalue(int dimNo){
 		return d.get(dimNo, dimNo);
 	}
 	
+	/**
+	 * Get number of dimensions of the input vectors
+	 */
 	public int getInputDimsNo(){
 		return means.length;
 	}
 	
+	/**
+	 * Get number of dimensions of the output vectors
+	 */
 	public int getOutputDimsNo(){
 		return v.getColumnDimension();
 	}
@@ -102,8 +116,7 @@ public final class PCA {
 	/**
 	 * Check if given point lies in PCA-generated subspace. 
 	 * If it does not, it means that the point doesn't belong 
-	 * to the transformation domain i.e. it is an outlier. 
-	 * See [blue:p.73:sec.1] for a picture explanation of the method.
+	 * to the transformation domain i.e. it is an outlier.
 	 * @param pt point
 	 * @return true iff the point lies on all principal axes
 	 */
@@ -185,7 +198,7 @@ public final class PCA {
  */
 class EVDWithThreshold {
 	/** Double machine precision in the R environment 
-	 * (i.e. in the R environment: `.Machine$double.eps`) */
+	 * (i.e. in the R environment: {@code .Machine$double.eps}) */
 	public static final double precision = 2.220446e-16;
 
 	private final EVDResult evd;
@@ -193,17 +206,17 @@ class EVDWithThreshold {
 	
 	/**
 	 * The tol parameter of the method assumes a default value equal to 
-	 * `sqrt(.Machine$double.eps)` from the R environment. In the help page
-	 * of the R environment `prcomp` function (see paragraph on `tol` 
-	 * parameter) it is written that in such setting we will 
-	 * "omit essentially constant components". */
+	 * {@code sqrt(.Machine$double.eps)} from the R environment. In the help 
+	 * page of the R environment {@code prcomp} function 
+	 * (see the paragraph on {@code tol} parameter) it is written that 
+	 * in such setting we will "omit essentially constant components". */
 	public EVDWithThreshold(EVDResult evd){
 		this(evd, Math.sqrt(precision));
 	}
 	/**
 	 * @param tol threshold parameter of the method - the same parameter
-	 * as used in R environment's `prcomp` function (see paragraph on `tol` 
-	 * parameter). */
+	 * as used in R environment's `prcomp` function (see the paragraph on 
+	 * {@code tol} parameter). */
 	public EVDWithThreshold(EVDResult evd, double tol){
 		this.evd = evd;
 		this.threshold = firstComponentSD(evd)*tol;
@@ -213,6 +226,13 @@ class EVDWithThreshold {
 		return Math.sqrt(evd.d.get(0, 0));
 	}
 	
+	/** Magnitude below which components should be omitted. This parameter
+	 * corresponds to the one in the `prcomp` function from the R
+	 * environment (see the paragraph on {@code tol} parameter).
+	 * The components are omitted if their standard deviations are less than 
+	 * or equal to {@code tol} (a parameter given in the constructor) times 
+	 * the standard deviation of the first component.
+	 */
 	public double getThreshold(){
 		return threshold;
 	}
