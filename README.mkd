@@ -1,6 +1,6 @@
 Introduction
 ============
-This project is a Java library implementing Principal Component Analysis (PCA) data transformation. It operates on data matrices where each row corresponds to a single real vector and each column corresponds to a single dimension.
+This is a Java library that implements Principal Component Analysis (PCA) data transformation. It operates on data matrices where each row corresponds to a single real vector and each column corresponds to a single dimension.
 
 Downloads
 =========
