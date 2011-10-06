@@ -12,6 +12,7 @@ import Jama.Matrix;
  * eigenvalues in a decreasing order. The eigenvalues in matrix {@code d} are
  * also sorted in the same way. This is the way the eigendecomposition
  * works in the R environment.
+ * @author Mateusz Kobos
  */
 public class EVD implements Serializable{
 	private static final long serialVersionUID = 1L;

@@ -2,6 +2,11 @@ package pca_transform.covmatrixevd;
 
 import Jama.Matrix;
 
+/**
+ * 
+ * @author Mateusz Kobos
+ *
+ */
 public class EVDResult {
 	public Matrix d;
 	public Matrix v;

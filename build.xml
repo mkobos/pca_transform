@@ -47,6 +47,7 @@
 	<fileset dir="." id="dist-bin-doc-files">
 		<include name="*.txt"/>
 		<include name="*.mkd"/>
+		<include name="docs/**"/>
 	</fileset>
 	<!-- Paths } -->
 

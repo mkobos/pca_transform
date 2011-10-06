@@ -3,6 +3,11 @@ package pca_transform.covmatrixevd;
 import pca_transform.Assume;
 import Jama.Matrix;
 
+/**
+ * Basic covariance matrix eigenvalue decomposition
+ * @author Mateusz Kobos
+ *
+ */
 public class EVDBased implements CovarianceMatrixEVDCalculator {
 
 	@Override
