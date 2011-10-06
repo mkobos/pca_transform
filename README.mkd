@@ -2,6 +2,12 @@ Introduction
 ============
 This project is a Java library implementing Principal Component Analysis (PCA) data transformation. It operates on data matrices where each row corresponds to a single real vector and each column corresponds to a single dimension.
 
+Downloads
+=========
+The library can be downloaded as a binary or source package from [https://github.com/mkobos/pca_transform/downloads](https://github.com/mkobos/pca_transform/downloads "Distribution download page").
+
+The source can be also downloaded straight from the Git repository: `git clone git@github.com:mkobos/pca_transform.git`.
+
 Features
 ========
 The main use case of the library is to create a PCA transformation based on training data and then to apply it on test data. The library can perform two transformations on the test data:
