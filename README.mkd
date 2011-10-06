@@ -27,11 +27,14 @@ Technical details
 =================
 There are two methods of obtaining the transformation matrix implemented. The first is based on the SVD and the second is based on the eigenvalue decomposition. The second one as the one more numerically stable is used by default.
 
-The library uses the Jama matrix library for linear algebra operations.
+Requirements
+------------
+- The library uses the Jama matrix library (included in the binary package) for linear algebra operations.
+- If you want to compile the library from the source, you have to have the "apache ant" and "apache ivy" tools installed in the system.
 
 Reliability
 ===========
-The default SVD-based version of the algorithm is checked to return the same results as the the implementation of the PCA from the R statistical environment -- the `prcomp` function (see the unit tests in the source code).
+The default SVD-based version of the algorithm is checked to return the same results as the the implementation of the PCA from the R statistical environment -- the `prcomp` function (see the unit tests in the source code). Some of the columns of the transformed testing data matrix might be multiplied by `-1` when compared with data returned by the R's `prcomp`. This is nothing to be worried about since both versions of the matrix are correct outputs of the PCA transformation and both are essentially equivalent as far as data processing applications are concerned.
 
 License and conditions of use
 =============================
