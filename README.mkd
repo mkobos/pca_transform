@@ -27,6 +27,8 @@ Technical details
 =================
 There are two methods of obtaining the transformation matrix implemented. The first is based on the SVD and the second is based on the eigenvalue decomposition. The second one as the one more numerically stable is used by default.
 
+When creating a new PCA, a boolean can be passed in as **false** if you wish to input a data matrix already mean-centered about zero. This has the same functionality as the R command: *prcomp(data, center=FALSE)*.
+
 Requirements
 ------------
 - The library uses the Jama matrix library (included in the binary package) for linear algebra operations.
