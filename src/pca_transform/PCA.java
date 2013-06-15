@@ -23,6 +23,9 @@ public final class PCA {
 	/** Whether the input data matrix has been centered about zero already. */
 	private final boolean centeredMatrix;
 	
+	/** Number of input dimensions. */
+	private final int inputDim;
+	
 	private final Matrix whiteningTransformation;
 	private final Matrix pcaRotationTransformation;
 	private final Matrix v;
@@ -73,8 +76,11 @@ public final class PCA {
 	 */
 	public PCA(Matrix data, CovarianceMatrixEVDCalculator evdCalc, boolean centered){
 		
-		// determine if input matrix has been centered
+		/** Determine if input matrix has been centered */
 		centeredMatrix = centered;
+		
+		/** Get the number of input dimensions. */
+		inputDim = data.getColumnDimension();
 		
 		EVDResult evd;
 		
@@ -131,7 +137,7 @@ public final class PCA {
 	 * Get number of dimensions of the input vectors
 	 */
 	public int getInputDimsNo(){
-		return means.length;
+		return inputDim;
 	}
 	
 	/**
@@ -217,7 +223,7 @@ public final class PCA {
 	}
 	
 	private static double[] getColumnsMeans(Matrix m){
-		double[] means = new double[m.getColumnDimension()];
+		double[] means = new double[inputDim];
 		for(int c = 0; c < m.getColumnDimension(); c++){
 			double sum = 0;
 			for(int r = 0; r < m.getRowDimension(); r++)
