@@ -20,6 +20,9 @@ public final class PCA {
 	 */
 	public enum TransformationType { ROTATION, WHITENING };
 	
+	/** Whether the input data matrix has been centered about zero already. */
+	private final boolean centeredMatrix;
+	
 	private final Matrix whiteningTransformation;
 	private final Matrix pcaRotationTransformation;
 	private final Matrix v;
@@ -36,7 +39,28 @@ public final class PCA {
 	 * Rows of the matrix are the instances/samples, columns are dimensions.
 	 * */
 	public PCA(Matrix data){
-		this(data, new SVDBased());
+		this(data, new SVDBased(), FALSE);
+	}
+	
+	/** Create the PCA transformation.
+	 * @param data data matrix used to compute the PCA transformation.
+	 * Rows of the matrix are the instances/samples, columns are dimensions.
+	 * @param evdCalc method of computing eigenvalue decomposition of data's
+	 * covariance matrix
+	 * */
+	public PCA(Matrix data, CovarianceMatrixEVDCalculator evdCalc){
+		this(data, evdCalc, FALSE);
+	}
+	
+	/** Create the PCA transformation. Use the popular SVD method for internal
+	 * calculations
+	 * @param data data matrix used to compute the PCA transformation. 
+	 * Rows of the matrix are the instances/samples, columns are dimensions.
+	 * @param centered boolean to determine if the data matrix has been mean-
+	 * centered about zero, false if not supplied
+	 * */
+	public PCA(Matrix data, boolean centered){
+		this(data, new SVDBased(), centered);
 	}
 	
 	/** Create the PCA transformation
@@ -44,13 +68,30 @@ public final class PCA {
 	 * Rows of the matrix are the instances/samples, columns are dimensions.
 	 * @param evdCalc method of computing eigenvalue decomposition of data's
 	 * covariance matrix
+	 * @param centered boolean to determine if the data matrix has been mean-
+	 * centered about zero, false if not supplied
 	 */
-	public PCA(Matrix data, CovarianceMatrixEVDCalculator evdCalc){
-		this.means = getColumnsMeans(data);
-		Matrix centeredData = shiftColumns(data, means);
-		//debugWrite(centeredData, "centeredData.csv");
-
-		EVDResult evd = evdCalc.run(centeredData);
+	public PCA(Matrix data, CovarianceMatrixEVDCalculator evdCalc, boolean centered){
+		
+		// determine if input matrix has been centered
+		centeredMatrix = centered;
+		
+		EVDResult evd;
+		
+		/** Center the data matrix columns about zero */
+		if(!centeredMatrix){
+			
+			this.means = getColumnsMeans(data);
+			Matrix centeredData = shiftColumns(data, means);
+			//debugWrite(centeredData, "centeredData.csv");
+			
+			evd = evdCalc.run(centeredData);
+			
+		/** Provided data has already been centered about zero */
+		}else{
+			evd = evdCalc.run(data);
+		}
+		
 		EVDWithThreshold evdT = new EVDWithThreshold(evd);
 		/** Get only the values of the matrices that correspond to 
 		 * standard deviations above the threshold*/
@@ -101,16 +142,23 @@ public final class PCA {
 	}
 	
 	/**
-	 * Execute selected transformation on given data
+	 * Execute selected transformation on given data.
+	 * Assumes that the input data matrix is centered
+	 * or not based on the original PCA matrix.
 	 * @param data data to transform. Rows of the matrix are the 
 	 * instances/samples, columns are dimensions.
 	 * @param type transformation to apply
 	 * @return transformed data
 	 */
 	public Matrix transform(Matrix data, TransformationType type){
-		Matrix centeredData = shiftColumns(data, means);
-		Matrix transformation = getTransformation(type); 
-		return centeredData.times(transformation);
+		if(!centeredMatrix){
+			Matrix centeredData = shiftColumns(data, means);
+			Matrix transformation = getTransformation(type); 
+			return centeredData.times(transformation);
+		}else{
+			Matrix transformation = getTransformation(type);
+			return data.times(transformation);
+		}
 	}
 	
 	/**
@@ -122,9 +170,14 @@ public final class PCA {
 	 */
 	public boolean belongsToGeneratedSubspace(Matrix pt){
 		Assume.assume(pt.getRowDimension()==1);
-		Matrix centeredPt = shiftColumns(pt, means);
-		Matrix zerosTransformedPt = centeredPt.times(
-				zerosRotationTransformation);
+		Matrix zerosTransformedPt;
+		if(!centeredMatrix){
+			Matrix centeredPt = shiftColumns(pt, means);
+			zerosTransformedPt = centeredPt.times(
+					zerosRotationTransformation);
+		}else{
+			zerosTransformedPt = pt.times(zerosRotationTransformation);
+		}
 		assert zerosTransformedPt.getRowDimension()==1;
 		/** Check if all coordinates of the point were zeroed by the 
 		 * transformation */
