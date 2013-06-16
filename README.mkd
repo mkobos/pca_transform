@@ -25,14 +25,15 @@ The library can be also used to **check if given test point lies in the PCA-gene
 
 Technical details
 =================
-There are two methods of obtaining the transformation matrix implemented. The first is based on the SVD and the second is based on the eigenvalue decomposition. The second one as the one more numerically stable is used by default.
-
-When creating a new PCA, a boolean can be passed in as **false** if you wish to input a data matrix already mean-centered about zero. This has the same functionality as the R command: *prcomp(data, center=FALSE)*.
+There are two methods of obtaining the transformation matrix implemented. The first is based on the SVD and the second is based on the eigenvalue decomposition. The first one as the one more numerically stable is used by default.
 
 Requirements
 ------------
 - The library uses the Jama matrix library (included in the binary package) for linear algebra operations.
 - If you want to compile the library from the source, you have to have the "apache ant" and "apache ivy" tools installed in the system.
+	- A side note: if you want to intall the ivy tool under Ubuntu Linux, you have to execute the following commands (as of version 12.04):
+		1. `sudo apt-get install ivy`
+		2. `sudo ln -s /usr/share/java/ivy.jar /usr/share/ant/lib/ivy.jar`
 
 Reliability
 ===========

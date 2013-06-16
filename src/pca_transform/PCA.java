@@ -40,14 +40,27 @@ public final class PCA {
 	 * calculations
 	 * @param data data matrix used to compute the PCA transformation. 
 	 * Rows of the matrix are the instances/samples, columns are dimensions.
+	 * It is assumed that the matrix is already centered.
 	 * */
 	public PCA(Matrix data){
 		this(data, new SVDBased(), true);
+	}
+
+	/** Create the PCA transformation. Use the popular SVD method for internal
+	 * calculations
+	 * @param data data matrix used to compute the PCA transformation. 
+	 * Rows of the matrix are the instances/samples, columns are dimensions.
+	 * @param center should the data matrix be centered before doing the
+	 * calculations?
+	 * */
+	public PCA(Matrix data, boolean center){
+		this(data, new SVDBased(), center);
 	}
 	
 	/** Create the PCA transformation.
 	 * @param data data matrix used to compute the PCA transformation.
 	 * Rows of the matrix are the instances/samples, columns are dimensions.
+	 * It is assumed that the matrix is already centered.
 	 * @param evdCalc method of computing eigenvalue decomposition of data's
 	 * covariance matrix
 	 * */
@@ -55,49 +68,29 @@ public final class PCA {
 		this(data, evdCalc, true);
 	}
 	
-	/** Create the PCA transformation. Use the popular SVD method for internal
-	 * calculations
-	 * @param data data matrix used to compute the PCA transformation. 
-	 * Rows of the matrix are the instances/samples, columns are dimensions.
-	 * @param centered boolean to determine if the data matrix should be
-	 * centered about not, true if not supplied
-	 * */
-	public PCA(Matrix data, boolean center){
-		this(data, new SVDBased(), center);
-	}
-	
 	/** Create the PCA transformation
 	 * @param data data matrix used to compute the PCA transformation. 
 	 * Rows of the matrix are the instances/samples, columns are dimensions.
 	 * @param evdCalc method of computing eigenvalue decomposition of data's
 	 * covariance matrix
-	 * @param centered boolean to determine if the data matrix should be
-	 * centered about not, true if not supplied
+	 * @param center should the data matrix be centered before doing the
+	 * calculations?
 	 */
 	public PCA(Matrix data, CovarianceMatrixEVDCalculator evdCalc, boolean center){
-		
 		/** Determine if input matrix should be centered */
-		centerMatrix = center;
-		
+		this.centerMatrix = center;
 		/** Get the number of input dimensions. */
-		inputDim = data.getColumnDimension();
-		
+		this.inputDim = data.getColumnDimension();
 		this.means = getColumnsMeans(data);
-		EVDResult evd;
 		
+		Matrix centeredData = data;
 		/** Center the data matrix columns about zero */
 		if(centerMatrix){
-			
-			Matrix centeredData = shiftColumns(data, means);
-			//debugWrite(centeredData, "centeredData.csv");
-			
-			evd = evdCalc.run(centeredData);
-			
-		/** Provided data has already been centered about zero */
-		}else{
-			evd = evdCalc.run(data);
+			centeredData = shiftColumns(data, means);
 		}
-		
+		//debugWrite(centeredData, "centeredData.csv");
+
+		EVDResult evd = evdCalc.run(centeredData);
 		EVDWithThreshold evdT = new EVDWithThreshold(evd);
 		/** Get only the values of the matrices that correspond to 
 		 * standard deviations above the threshold*/
@@ -149,41 +142,37 @@ public final class PCA {
 	
 	/**
 	 * Execute selected transformation on given data.
-	 * Assumes that the input data matrix is centered
-	 * or not based on the original PCA matrix.
 	 * @param data data to transform. Rows of the matrix are the 
-	 * instances/samples, columns are dimensions.
+	 * instances/samples, columns are dimensions. 
+	 * If the original PCA data matrix was set to be centered, this
+	 * matrix will also be centered using the same parameters.
 	 * @param type transformation to apply
 	 * @return transformed data
 	 */
 	public Matrix transform(Matrix data, TransformationType type){
+		Matrix centeredData = data;
 		if(centerMatrix){
-			Matrix centeredData = shiftColumns(data, means);
-			Matrix transformation = getTransformation(type); 
-			return centeredData.times(transformation);
-		}else{
-			Matrix transformation = getTransformation(type);
-			return data.times(transformation);
+			centeredData = shiftColumns(data, means);
 		}
+		Matrix transformation = getTransformation(type); 
+		return centeredData.times(transformation);
 	}
 	
 	/**
 	 * Check if given point lies in PCA-generated subspace. 
 	 * If it does not, it means that the point doesn't belong 
 	 * to the transformation domain i.e. it is an outlier.
-	 * @param pt point
+	 * @param pt point. If the original PCA data matrix was set to be centered, 
+	 * this point will also be centered using the same parameters.
 	 * @return true iff the point lies on all principal axes
 	 */
 	public boolean belongsToGeneratedSubspace(Matrix pt){
 		Assume.assume(pt.getRowDimension()==1);
-		Matrix zerosTransformedPt;
+		Matrix centeredPt = pt;
 		if(centerMatrix){
-			Matrix centeredPt = shiftColumns(pt, means);
-			zerosTransformedPt = centeredPt.times(
-					zerosRotationTransformation);
-		}else{
-			zerosTransformedPt = pt.times(zerosRotationTransformation);
+			centeredPt = shiftColumns(pt, means);
 		}
+		Matrix zerosTransformedPt = centeredPt.times(zerosRotationTransformation);
 		assert zerosTransformedPt.getRowDimension()==1;
 		/** Check if all coordinates of the point were zeroed by the 
 		 * transformation */
