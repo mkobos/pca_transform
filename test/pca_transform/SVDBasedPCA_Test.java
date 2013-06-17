@@ -19,6 +19,10 @@ public class SVDBasedPCA_Test extends TemplatePCATest {
 				"data/iris_data_set/iris-other.csv",
 				"data/iris_data_set/built-in-other_rotated.csv", 
 				"data/iris_data_set/built-in-other_whitened.csv");		
+		checkPCATransformation("data/iris_data_set_normalized/iris-normalized.csv", 
+				"data/iris_data_set_normalized/iris-normalized.csv",
+				"data/iris_data_set_normalized/built-in-iris_rotated.csv", 
+				"data/iris_data_set_normalized/built-in-iris_whitened.csv");
 	}
 	
 	public void testImageSegementationClass1() throws IOException{
