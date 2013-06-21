@@ -5,7 +5,7 @@
 	<!-- Properties { -->
 	<property name="build.debug" value="false"/>
 	<property name="project.name" value="pca_transform"/>
-	<property name="project.version" value="0.8"/>
+	<property name="project.version" value="0.8.1"/>
 	<property name="project.name-ver" value="${project.name}-${project.version}" />
 	<!-- Properties } -->
 	
