@@ -27,19 +27,14 @@ public abstract class TemplatePCATest extends TestCase {
 	
 	protected void checkPCATransformation(String trainingDataPath,
 			String testingDataPath, 
-			String expectedRotatedDataPath, String expectedWhitenedDataPath
-			boolean centering) 
+			String expectedRotatedDataPath, String expectedWhitenedDataPath,
+			boolean center) 
 	throws IOException{
 		Matrix training = DataReader.read(getFile(trainingDataPath), false);
 		Matrix testing = DataReader.read(getFile(testingDataPath), false);
 		Matrix expectedRotated = DataReader.read(
 				getFile(expectedRotatedDataPath), false);
-		PCA pca;
-		if(centering){
-			pca = createPCA(training);
-		}else{
-			pca = createPCA(training, false);
-		}
+		PCA pca = createPCA(training, center);
 		Matrix actualRotated = 
 				pca.transform(testing, PCA.TransformationType.ROTATION);
 		assertTrue(equalColumnsWithSignAccuracy(
@@ -55,7 +50,7 @@ public abstract class TemplatePCATest extends TestCase {
 	protected void checkOutliers(String allDataFile, 
 			String outliersDataFile, String nonOutliersDataFile) throws IOException{
 		Matrix pts = DataReader.read(getFile(allDataFile), false);
-		PCA pca = createPCA(pts);
+		PCA pca = createPCA(pts, true);
 		Matrix outliers = DataReader.read(getFile(outliersDataFile), false);
 		for(int r = 0; r < outliers.getRowDimension(); r++){
 			Matrix vector = outliers.getMatrix(
@@ -74,7 +69,7 @@ public abstract class TemplatePCATest extends TestCase {
 	protected void checkDimsReduction(String filePath, int inputDimsNo,
 			int outputDimsNo) throws IOException{
 		Matrix pts = DataReader.read(getFile(filePath), false);
-		PCA pca = createPCA(pts);
+		PCA pca = createPCA(pts, true);
 		assertEquals(inputDimsNo, pca.getInputDimsNo());		
 		assertEquals(outputDimsNo, pca.getOutputDimsNo());
 	}
@@ -115,7 +110,7 @@ public abstract class TemplatePCATest extends TestCase {
 		return true;
 	}
 	
-	private PCA createPCA(Matrix pts){
-		return new PCA(pts, evdCalc);
+	private PCA createPCA(Matrix pts, boolean center){
+		return new PCA(pts, evdCalc, center);
 	}
 }

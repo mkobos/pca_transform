@@ -31,7 +31,7 @@ Requirements
 ------------
 - The library uses the Jama matrix library (included in the binary package) for linear algebra operations.
 - If you want to compile the library from the source, you have to have the "apache ant" and "apache ivy" tools installed in the system.
-	- A side note: if you want to intall the ivy tool under Ubuntu Linux, you have to execute the following commands (as of version 12.04):
+	- A side note: if you want to install the ivy tool under Ubuntu Linux, you have to execute the following commands (as of version 12.04):
 		1. `sudo apt-get install ivy`
 		2. `sudo ln -s /usr/share/java/ivy.jar /usr/share/ant/lib/ivy.jar`
 
