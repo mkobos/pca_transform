@@ -2,7 +2,7 @@ d <- iris
 numeric.d <- subset(d, select=-Species)
 write.csv(numeric.d, "iris.csv", row.names=FALSE)
 data <- numeric.d
-data.means <- mean(data)
+data.means <- colMeans(data)
 
 ##built-in PCA{
 pca <- prcomp(data)
