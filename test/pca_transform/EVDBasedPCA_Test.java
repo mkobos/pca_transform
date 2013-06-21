@@ -43,6 +43,10 @@ public class EVDBasedPCA_Test extends TemplatePCATest {
 				"data/iris_data_set/iris-other.csv",
 				"data/iris_data_set/eigen-other_rotated.csv", 
 				"data/iris_data_set/eigen-other_whitened.csv");		
+		checkPCATransformation("data/iris_data_set_normalized/iris-normalized.csv", 
+				"data/iris_data_set_normalized/iris-normalized.csv",
+				"data/iris_data_set_normalized/eigen-iris_rotated.csv", 
+				"data/iris_data_set_normalized/eigen-iris_whitened.csv", false);
 	}
 	
 	public void testImageSegementationClass1() throws IOException{

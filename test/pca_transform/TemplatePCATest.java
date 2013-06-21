@@ -21,11 +21,25 @@ public abstract class TemplatePCATest extends TestCase {
 			String testingDataPath, 
 			String expectedRotatedDataPath, String expectedWhitenedDataPath) 
 	throws IOException{
+		checkPCATransformation(trainingDataPath, testingDataPath,
+			expectedRotatedDataPath, expectedWhitenedDataPath, true);
+	}
+	
+	protected void checkPCATransformation(String trainingDataPath,
+			String testingDataPath, 
+			String expectedRotatedDataPath, String expectedWhitenedDataPath
+			boolean centering) 
+	throws IOException{
 		Matrix training = DataReader.read(getFile(trainingDataPath), false);
 		Matrix testing = DataReader.read(getFile(testingDataPath), false);
 		Matrix expectedRotated = DataReader.read(
 				getFile(expectedRotatedDataPath), false);
-		PCA pca = createPCA(training);
+		PCA pca;
+		if(centering){
+			pca = createPCA(training);
+		}else{
+			pca = createPCA(training, false);
+		}
 		Matrix actualRotated = 
 				pca.transform(testing, PCA.TransformationType.ROTATION);
 		assertTrue(equalColumnsWithSignAccuracy(
