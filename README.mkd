@@ -2,6 +2,9 @@ Introduction
 ============
 This is a Java library that implements Principal Component Analysis (PCA) data transformation. It operates on data matrices where each row corresponds to a single real vector and each column corresponds to a single dimension.
 
+This is Fredrik Bridell's fork of the pca_transform project by Mateusz Kobos. All credits with regards to clever ideas should go to him; I merely repackaged this for Maven and stuff like that. 
+
+
 Downloads
 =========
 The library can be downloaded as a binary or source package from [https://github.com/mkobos/pca_transform/downloads](https://github.com/mkobos/pca_transform/downloads "Distribution download page").
@@ -29,11 +32,9 @@ There are two methods of obtaining the transformation matrix implemented. The fi
 
 Requirements
 ------------
-- The library uses the Jama matrix library (included in the binary package) for linear algebra operations.
-- If you want to compile the library from the source, you have to have the "apache ant" and "apache ivy" tools installed in the system.
-	- A side note: if you want to install the ivy tool under Ubuntu Linux, you have to execute the following commands (as of version 12.04):
-		1. `sudo apt-get install ivy`
-		2. `sudo ln -s /usr/share/java/ivy.jar /usr/share/ant/lib/ivy.jar`
+- The library uses the Jama matrix library for linear algebra operations.
+- Mateusz Kobos original code uses Ant and Ivy, but this fork uses Maven. To build this, all you should need to do is install [Apache Maven](https://maven.apache.org/download.cgi) and run `mvn install`. 
+
 
 Reliability
 ===========

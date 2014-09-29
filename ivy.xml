@@ -1,6 +1,0 @@
-<ivy-module version="2.0">
-    <info organisation="com.mkobos" module="pca_transform"/>
-    <dependencies>
-        <dependency org="nist" name="Jama" rev="1.0.2"/>
-    </dependencies>
-</ivy-module>
