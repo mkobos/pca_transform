@@ -1,11 +1,9 @@
-package pca_transform;
+package com.mkobos.pca_transform;
 
-import pca_transform.Assume;
-import pca_transform.covmatrixevd.CovarianceMatrixEVDCalculator;
-import pca_transform.covmatrixevd.EVDBased;
-import pca_transform.covmatrixevd.EVDResult;
-import pca_transform.covmatrixevd.SVDBased;
 import Jama.Matrix;
+import com.mkobos.pca_transform.*;
+import com.mkobos.pca_transform.covmatrixevd.*;
+
 
 /** The class responsible mainly for preparing the PCA transformation parameters 
  * based on training data and executing the actual transformation on test data.

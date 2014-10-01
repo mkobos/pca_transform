@@ -1,4 +1,4 @@
-package pca_transform.covmatrixevd;
+package com.mkobos.pca_transform.covmatrixevd;
 
 import Jama.Matrix;
 
@@ -11,5 +11,5 @@ public interface CovarianceMatrixEVDCalculator {
 	 * @param centeredData data matrix where rows are the instances/samples and 
 	 * columns are dimensions. It has to be centered.
 	 */
-	public EVDResult run(Matrix centeredData);
+	public com.mkobos.pca_transform.covmatrixevd.EVDResult run(Matrix centeredData);
 }

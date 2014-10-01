@@ -1,7 +1,9 @@
-package pca_transform.covmatrixevd;
+package com.mkobos.pca_transform.covmatrixevd;
 
 import Jama.Matrix;
 import Jama.SingularValueDecomposition;
+
+
 /**
  * SVD-based covariance matrix eigenvalue decomposition
  * @author Mateusz Kobos

@@ -1,11 +1,15 @@
-package pca_transform;
+package com.mkobos.pca_transform;
 
-import java.io.IOException;
-import java.io.InputStream;
+import com.mkobos.pca_transform.covmatrixevd.CovarianceMatrixEVDCalculator;
 
 import Jama.Matrix;
+
 import junit.framework.TestCase;
-import pca_transform.covmatrixevd.CovarianceMatrixEVDCalculator;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 public abstract class TemplatePCATest extends TestCase {
 	private final double precision;
@@ -74,9 +78,11 @@ public abstract class TemplatePCATest extends TestCase {
 		assertEquals(outputDimsNo, pca.getOutputDimsNo());
 	}
 	
-	protected InputStream getFile(String filePath){
-		return getClass().getResourceAsStream(filePath);
-	}
+
+    protected BufferedReader getFile(String filePath) throws FileNotFoundException {
+        BufferedReader br = new BufferedReader(new FileReader("target/test-classes/" + filePath));
+        return br;
+    }
 	
 	private static boolean equalColumnsWithSignAccuracy(
 			Matrix expected, Matrix actual, double precision){

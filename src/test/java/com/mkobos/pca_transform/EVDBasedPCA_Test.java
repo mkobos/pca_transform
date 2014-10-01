@@ -1,9 +1,10 @@
-package pca_transform;
+package com.mkobos.pca_transform;
+
+import com.mkobos.pca_transform.covmatrixevd.EVDBased;
+
+import Jama.Matrix;
 
 import java.io.IOException;
-
-import pca_transform.covmatrixevd.EVDBased;
-import Jama.Matrix;
 
 public class EVDBasedPCA_Test extends TemplatePCATest {
 	

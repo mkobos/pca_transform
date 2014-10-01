@@ -1,11 +1,11 @@
-package pca_transform.covmatrixevd;
+package com.mkobos.pca_transform.covmatrixevd;
+
+import Jama.EigenvalueDecomposition;
+import Jama.Matrix;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-
-import Jama.EigenvalueDecomposition;
-import Jama.Matrix;
 
 /**
  * Eigenvalue decomposition with eigenvectors sorted according to corresponding

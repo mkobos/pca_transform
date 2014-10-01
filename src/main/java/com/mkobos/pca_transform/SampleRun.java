@@ -1,4 +1,4 @@
-package pca_transform;
+package com.mkobos.pca_transform;
 
 import Jama.Matrix;
 

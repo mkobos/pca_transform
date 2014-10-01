@@ -1,8 +1,9 @@
-package pca_transform;
+package com.mkobos.pca_transform;
+
+import com.mkobos.pca_transform.covmatrixevd.SVDBased;
 
 import java.io.IOException;
 
-import pca_transform.covmatrixevd.SVDBased;
 
 public class SVDBasedPCA_Test extends TemplatePCATest {
 	
