@@ -4,7 +4,6 @@ import Jama.Matrix;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,12 +13,15 @@ import java.util.ArrayList;
  * Reads data matrix from a CSV file
  *
  * @author Mateusz Kobos
+ * @author Fredrik Bridell 
  */
 public class DataReader {
 
     /**
      * Read data matrix from a CSV file. The first row (corresponding to the header) is ignored.
      * Some lines may be commented out by a '#' character.
+     * 
+     * This is a convenience wrapper for {@link #read(BufferedReader br, boolean ignoreLastColumn)}
      *
      * @param inStream         CSV file
      * @param ignoreLastColumn if True, the last column is ignored. This is helpful when the last
@@ -84,12 +86,5 @@ public class DataReader {
         Matrix m = new Matrix(vectorsArray);
         return m;
     }
-
-
-    public static Matrix read(String filename, boolean ignoreLastLine)
-        throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(filename));
-        return read(br, ignoreLastLine);
-    }
-
+    
 }

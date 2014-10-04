@@ -1,7 +1,6 @@
 package com.mkobos.pca_transform;
 
 import Jama.Matrix;
-import com.mkobos.pca_transform.*;
 import com.mkobos.pca_transform.covmatrixevd.*;
 
 

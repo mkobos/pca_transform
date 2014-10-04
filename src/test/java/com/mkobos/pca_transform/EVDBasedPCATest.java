@@ -6,9 +6,9 @@ import Jama.Matrix;
 
 import java.io.IOException;
 
-public class EVDBasedPCA_Test extends TemplatePCATest {
+public class EVDBasedPCATest extends TemplatePCATest {
 	
-	public EVDBasedPCA_Test() {
+	public EVDBasedPCATest() {
 		super(1e-8, new EVDBased());
 	}
 	

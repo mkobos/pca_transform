@@ -11,5 +11,5 @@ public interface CovarianceMatrixEVDCalculator {
 	 * @param centeredData data matrix where rows are the instances/samples and 
 	 * columns are dimensions. It has to be centered.
 	 */
-	public com.mkobos.pca_transform.covmatrixevd.EVDResult run(Matrix centeredData);
+	public EVDResult run(Matrix centeredData);
 }

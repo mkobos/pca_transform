@@ -1,0 +1,18 @@
+1.0 (2014-10-04)
+================
+- Migrating the project from Ant and Ivy to Maven build system - by Fredrik Bridell
+
+0.8 (2013-06-21)
+================
+- Performing PCA on already centered data matrix - by Sean McKenna
+- Making the code conform more to the R `prcomp` function - by Sean McKenna
+
+
+0.7 (2011-10-06)
+================
+- Extending the README
+
+0.6 (2011-10-05)
+================
+- Initial commit
+

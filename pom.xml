@@ -1,45 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.bridell</groupId>
-    <artifactId>pca_transform</artifactId>
-    <version>1.0-SNAPSHOT</version>
+	<groupId>com.mkobos</groupId>
+	<artifactId>pca_transform</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
 
-    <dependencies>
+	<name>PCA Transform</name>
+	<description>Library that implements Principal Component Analysis (PCA) data transformation</description>
+	<url>https://github.com/mkobos/pca_transform</url>
 
-        <dependency>
-            <!-- Hamcrest matchers, mainly for unit tests -->
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-all</artifactId>
-            <version>1.3</version>
-        </dependency>
-        
-        <dependency>
-            <!-- sl4j logging using logback -->
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.0.13</version>
-        </dependency>
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>http://www.opensource.org/licenses/mit-license.php</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 
-        <!-- Mateusz Kobos' PCA classes use Jama for math -->
-        <dependency>
-            <groupId>gov.nist.math</groupId>
-            <artifactId>jama</artifactId>
-            <version>1.0.2</version>
-        </dependency>
+	<scm>
+		<url>https://github.com/mkobos/pca_transform</url>
+		<connection>scm:git:git://github.com/mkobos/pca_transform.git</connection>
+		<developerConnection>scm:git:git@github.com:mkobos/pca_transform.git</developerConnection>
+	</scm>
 
-        <!-- test scoped dependencies -->
-        <dependency>
-            <!-- JUnit, for unit testing -->
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-            <scope>test</scope>
-        </dependency>
+	<developers>
+		<developer>
+			<email>mateusz@mkobos.com</email>
+			<name>Mateusz Kobos</name>
+			<url>https://github.com/mkobos</url>
+			<id>mkobos</id>
+		</developer>
+	</developers>
 
-    </dependencies>
+	<dependencies>
+
+		<dependency>
+			<groupId>gov.nist.math</groupId>
+			<artifactId>jama</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+
+		<!-- test scoped dependencies -->
+		<dependency>
+			<!-- JUnit, for unit testing -->
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.3.2</version>
+					<configuration>
+						<source>1.7</source>
+						<target>1.7</target>
+						<compilerArgument></compilerArgument>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 
 </project>

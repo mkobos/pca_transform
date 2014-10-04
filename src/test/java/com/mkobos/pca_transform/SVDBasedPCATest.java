@@ -5,9 +5,9 @@ import com.mkobos.pca_transform.covmatrixevd.SVDBased;
 import java.io.IOException;
 
 
-public class SVDBasedPCA_Test extends TemplatePCATest {
+public class SVDBasedPCATest extends TemplatePCATest {
 	
-	public SVDBasedPCA_Test() {
+	public SVDBasedPCATest() {
 		super(1e-12, new SVDBased());
 	}
 	
