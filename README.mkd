@@ -4,7 +4,21 @@ This is a Java library that implements Principal Component Analysis (PCA) data t
 
 Downloads
 =========
-The library can be downloaded as a binary or source package from [https://github.com/mkobos/pca_transform/downloads](https://github.com/mkobos/pca_transform/downloads "Distribution download page").
+The library can be downloaded as a binary or source package from [The Central Repository](http://search.maven.org/) or you can simply use it by adding a **dependency in your Maven POM file** (if you use the Maven build system) of the form
+
+    <project>
+    (...)
+    <dependencies>
+    (...)
+        <dependency>
+            <groupId>com.mkobos</groupId>
+            <artifactId>pca_transform</artifactId>
+            <version>1.0</version>
+        </dependency>
+    (...)
+    </dependencies>
+    (...)
+    </project>
 
 The source can be also retrieved straight from the Git repository: `git clone git@github.com:mkobos/pca_transform.git`.
 

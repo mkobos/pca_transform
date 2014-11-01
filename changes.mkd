@@ -1,6 +1,7 @@
-1.0 (2014-10-04)
+1.0 (2014-11-01)
 ================
 - Migrating the project from Ant and Ivy to Maven build system - by Fredrik Bridell
+- Publishing the project in Maven's Central Repository - by Mateusz Kobos
 
 0.8 (2013-06-21)
 ================
