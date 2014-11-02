@@ -5,7 +5,7 @@ import Jama.Matrix;
 /** An example program using the library */
 public class SampleRun {
 	public static void main(String[] args){
-		System.out.println("Running a demonstrational program on some sample data ...");
+		System.out.println("Running a demonstration program on some sample data ...");
 		Matrix trainingData = new Matrix(new double[][] {
 			{1, 2, 3, 4, 5, 6},
 			{6, 5, 4, 3, 2, 1},
