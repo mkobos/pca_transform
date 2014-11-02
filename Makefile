@@ -3,16 +3,12 @@
 ## Below you can find information about repositories where the project is deployed. The original information about destination repositories is available at http://central.sonatype.org/pages/ossrh-guide.html.
 
 ## Deploy the project to the snapshot repository. It will be deployed to the https://oss.sonatype.org/content/repositories/snapshots/ public repository. Note that the version string of the project must end with "-SNAPSHOT".
-deploy-to-snapshot:
+deploy-snapshot:
 	mvn clean deploy
 
-## Deploy the project to the staging repository. This repository is meant for internal use of the developers of given project and it is located at https://oss.sonatype.org/service/local/staging/deploy/maven2. 
-deploy-to-staging:
+## Deploy the project to the public repository containing release versions of the libraries. The public repository is available at https://oss.sonatype.org/content/repositories/releases/. This repository is synced with Maven's Central Repository.
+deploy-release:
 	mvn clean deploy -P release
-
-## Copy the project deployed to the staging repository to the public repository. The public repository is available at https://oss.sonatype.org/content/repositories/releases/
-publish-from-staging:
-	mvn nexus-staging:release
 
 ## Create HTML version of the README file
 readme-html:
