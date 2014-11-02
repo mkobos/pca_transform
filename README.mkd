@@ -68,7 +68,7 @@ This demonstration program can be run by executing the library's JAR file from t
 
 How to get it
 =============
-If you use [Maven build system](http://maven.apache.org/), you can add the library to you project by adding a **dependency in your Maven POM file** of the form of
+Since the library is deployed in Maven's [Central Repository](http://search.maven.org), if you use [Maven build system](http://maven.apache.org/), you can start using the library in your project after simply adding a **dependency in your Maven POM file** of the form of
 
     <dependency>
         <groupId>com.mkobos</groupId>
@@ -76,7 +76,7 @@ If you use [Maven build system](http://maven.apache.org/), you can add the libra
         <version>XXX</version>
     </dependency>
 
-You can find information on what is the most up-to-date version of the library at Maven's [Central Repository](http://search.maven.org/). This repository is also the right place to download the binary or source packages of the library in case you don't use Maven.
+You can find the most current binary, source, and javadoc distributions of the library in Maven's [Central Repository](http://search.maven.org/#search|ga|1|pca_transform).
 
 The source can be also retrieved straight from the Git repository: `git clone git@github.com:mkobos/pca_transform.git`.
 
