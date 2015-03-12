@@ -1,5 +1,7 @@
 Introduction
 ============
+[![Build Status](https://travis-ci.org/mkobos/pca_transform.png?branch=master)](https://travis-ci.org/mkobos/pca_transform)
+
 This is a Java library that implements Principal Component Analysis (PCA) data transformation. It operates on data matrices where each row corresponds to a single real vector and each column corresponds to a single dimension.
 
 Features
