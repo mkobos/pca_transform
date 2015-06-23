@@ -28,43 +28,48 @@ The default SVD-based version of the algorithm is checked to return the same res
 Example usage
 =============
 Here is an example usage from one of the library's source files (`src/main/java/com/mkobos/pca_transform/SampleRun.java`):
-	
-	package com.mkobos.pca_transform;
 
-	import Jama.Matrix;
+    package com.mkobos.pca_transform;
 
-	/** An example program using the library */
-	public class SampleRun {
-		public static void main(String[] args){
-			System.out.println("Running a demonstration program on some sample data ...");
-			Matrix trainingData = new Matrix(new double[][] {
-				{1, 2, 3, 4, 5, 6},
-				{6, 5, 4, 3, 2, 1},
-				{2, 2, 2, 2, 2, 2}});
-			PCA pca = new PCA(trainingData);
-			Matrix testData = new Matrix(new double[][] {
-					{1, 2, 3, 4, 5, 6},
-					{1, 2, 1, 2, 1, 2}});
-			Matrix transformedData =
-				pca.transform(testData, PCA.TransformationType.WHITENING);
-			System.out.println("Transformed data:");
-			for(int r = 0; r < transformedData.getRowDimension(); r++){
-				for(int c = 0; c < transformedData.getColumnDimension(); c++){
-					System.out.print(transformedData.get(r, c));
-					if (c == transformedData.getColumnDimension()-1) continue;
-					System.out.print(", ");
-				}
-				System.out.println("");
-			}
-		}
-	}
+    import Jama.Matrix;
+
+    /** An example program using the library */
+    public class SampleRun {
+        public static void main(String[] args){
+            System.out.println("Running a demonstration program on some sample data ...");
+            /** Training data matrix with each row corresponding to data point and
+            * each column corresponding to dimension. */
+            Matrix trainingData = new Matrix(new double[][] {
+                {1, 2, 3, 4, 5, 6},
+                {6, 5, 4, 3, 2, 1},
+                {2, 2, 2, 2, 2, 2}});
+            PCA pca = new PCA(trainingData);
+            /** Test data to be transformed. The same convention of representing
+            * data points as in the training data matrix is used. */
+            Matrix testData = new Matrix(new double[][] {
+                    {1, 2, 3, 4, 5, 6},
+                    {1, 2, 1, 2, 1, 2}});
+            /** The transformed test data. */
+            Matrix transformedData =
+                pca.transform(testData, PCA.TransformationType.WHITENING);
+            System.out.println("Transformed data (each row corresponding to transformed data point):");
+            for(int r = 0; r < transformedData.getRowDimension(); r++){
+                for(int c = 0; c < transformedData.getColumnDimension(); c++){
+                    System.out.print(transformedData.get(r, c));
+                    if (c == transformedData.getColumnDimension()-1) continue;
+                    System.out.print(", ");
+                }
+                System.out.println("");
+            }
+        }
+    }
 
 This results in the following output:
 
-	Running a demonstration program on some sample data ...
-	Transformed data:
-	-0.9999999999999998, -0.5773502691896268
-	-0.08571428571428596, 1.732050807568878
+    Running a demonstration program on some sample data ...
+    Transformed data (each row corresponding to transformed data point):
+    -0.9999999999999998, -0.5773502691896268
+    -0.08571428571428596, 1.732050807568878
 
 This demonstration program can be run by executing the library's JAR file from the binary distribution package.
 

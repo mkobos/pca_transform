@@ -14,3 +14,11 @@ deploy-release:
 readme-html:
 	pandoc -N -t html -s --no-wrap --toc -o README.html README.mkd
 
+## Compile the library and run sample program
+run-example:
+	mvn clean install
+	mvn dependency:copy-dependencies
+	java -cp ./target/*:./target/dependency/* com.mkobos.pca_transform.SampleRun
+
+clean:
+	mvn clean
